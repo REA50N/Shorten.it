@@ -9,10 +9,8 @@ export default function AnalyticsPage() {
   const { data: session, status } = useSession();
   const { data: allLinks, isLoading } = useAllLink();
 
-  // Local state for filtering
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Calculated Stats
   const totalClicks = useMemo(() => {
     return (
       allLinks?.reduce(
@@ -28,7 +26,6 @@ export default function AnalyticsPage() {
     return totalLinks > 0 ? Math.round(totalClicks / totalLinks) : 0;
   }, [totalClicks, totalLinks]);
 
-  // Filtered Links
   const filteredLinks = useMemo(() => {
     if (!allLinks) return [];
     if (!searchTerm) return allLinks;
@@ -55,7 +52,6 @@ export default function AnalyticsPage() {
 
   return (
     <div className="max-w-6xl mx-auto">
-      {/* Header */}
       <div className="mb-10">
         <h1 className="text-4xl font-semibold tracking-tight">Analytics</h1>
         <p className="text-slate-500 mt-2">
@@ -63,14 +59,12 @@ export default function AnalyticsPage() {
         </p>
       </div>
 
-      {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
         <StatCard title="Total Clicks" value={totalClicks} />
         <StatCard title="Total Links" value={totalLinks} />
         <StatCard title="Avg. Clicks per Link" value={avgClicks} />
       </div>
 
-      {/* Search & Table */}
       <div className="rounded-3xl border border-white/10 bg-[#171f33]/70">
         <div className="p-6 border-b border-white/10 flex flex-col sm:flex-row gap-4 items-center justify-between">
           <h2 className="text-lg font-semibold">All Links Performance</h2>
@@ -130,7 +124,6 @@ export default function AnalyticsPage() {
   );
 }
 
-// Reusable Stat Card Component
 function StatCard({ title, value }: { title: string; value: number }) {
   return (
     <div className="rounded-3xl border border-white/10 bg-[#171f33]/70 p-8">

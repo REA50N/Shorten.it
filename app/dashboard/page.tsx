@@ -12,10 +12,6 @@ import EditOutlined from "@mui/icons-material/EditOutlined";
 import InsertLinkOutlined from "@mui/icons-material/InsertLinkOutlined";
 import OpenInNewOutlined from "@mui/icons-material/OpenInNewOutlined";
 import QrCode2Outlined from "@mui/icons-material/QrCode2Outlined";
-import TrendingUpOutlined from "@mui/icons-material/TrendingUpOutlined";
-import PublicOutlined from "@mui/icons-material/PublicOutlined";
-import DevicesOutlined from "@mui/icons-material/DevicesOutlined";
-import AdsClickOutlined from "@mui/icons-material/AdsClickOutlined";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -341,7 +337,13 @@ export default function DashboardPage() {
                         <div className="space-y-4 mt-6">
                           <input
                             value={editedSlug}
-                            onChange={(e) => setEditedSlug(e.target.value)}
+                            onChange={(e) => {
+                              let value = e.target.value;
+                              value = value.toLowerCase().replace(/[^a-z0-9-]/g, '');
+                              
+                              setEditedSlug(value);
+                            }}
+                            maxLength={10}
                             className="w-full rounded-xl border border-white/10 bg-black/40 px-4 py-3 outline-none"
                             placeholder="Enter new slug"
                           />

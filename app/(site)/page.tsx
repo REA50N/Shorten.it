@@ -6,16 +6,13 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { useShortUrl } from "@/hooks/useShortUrl";
-// import { useHeroStats } from "@/hooks/useHeroStats";
 import { useSession } from "next-auth/react";
 import z from "zod";
 import { toast } from "sonner";
-import Link from "next/link";
 import ContentCopyOutlined from "@mui/icons-material/ContentCopyOutlined";
 import OpenInNewOutlined from "@mui/icons-material/OpenInNewOutlined";
 import QrCode2Outlined from "@mui/icons-material/QrCode2Outlined";
 import { QRCodeDialog } from "@/components/QRCodeDialog";
-import { log } from "node:console";
 
 export default function Home() {
   const { shortUrl, isLoading, newUrl } = useShortUrl();
@@ -23,7 +20,6 @@ export default function Home() {
   const [mounted, setMounted] = useState(false);
   const [qrOpen, setQrOpen] = useState(false);
   const [customSlug, setCustomSlug] = useState("");
-  // const { data: heroStats } = useHeroStats();
   const { data: session } = useSession();
   const lastSubmittedRef = useRef("");
   const urlSchema = z.url();
@@ -35,7 +31,6 @@ const isValidUrl = useMemo(
     setMounted(true);
   }, []);
 
-  /** Avoid SSR vs client mismatch on `disabled` (e.g. session / env timing). */
   const submitDisabled =
   !mounted || isLoading || !isValidUrl;
 
@@ -69,16 +64,13 @@ const isValidUrl = useMemo(
   
     try {
       submittingRef.current = true;
-  
-      // IMPORTANT
-      lastSubmittedRef.current = trimmedUrl;
+        lastSubmittedRef.current = trimmedUrl;
   
       await shortUrl(trimmedUrl);
     } catch (error) {
       lastSubmittedRef.current = "";
       toast.error("Failed to shorten URL");
     } finally {
-      // optional cooldown window
       setTimeout(() => {
         submittingRef.current = false;
       }, 500);
@@ -176,7 +168,6 @@ const isValidUrl = useMemo(
                   </div>
                 </div>
 
-                {/* Optional: Quick QR Code Button */}
                 <div className="mt-4 flex justify-end">
                   <Button
                     variant="ghost"
